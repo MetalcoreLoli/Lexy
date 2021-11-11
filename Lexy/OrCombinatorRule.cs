@@ -16,7 +16,7 @@ namespace Lexy
         public override ExecutionResult ExecuteOn(string context)
         {
             var resultOfLeft = _left?.ExecuteOn(context);
-            var resultOrRight = _right?.ExecuteOn(context);
+            var resultOrRight = _right?.ExecuteOn(resultOfLeft.Tail);
             if (resultOfLeft != default && resultOrRight != default)
                 return resultOfLeft.Append(resultOrRight);
             return resultOfLeft ?? resultOrRight;

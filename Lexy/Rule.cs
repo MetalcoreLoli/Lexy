@@ -24,11 +24,14 @@ namespace Lexy
             protected readonly List<ExecutionResult> _results;
             protected readonly object _value;
 
-            public ExecutionResult(object context)
+            public ExecutionResult(object context, string  tail = "")
             {
                 _value = context ?? throw new NullReferenceException();
                 _results = new List<ExecutionResult>();
+                Tail = tail;
             }
+
+            internal string Tail { get; }
 
             public ExecutionResult Append(ExecutionResult result)
             {
@@ -55,17 +58,6 @@ namespace Lexy
         
 
             IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-        }
-    }
-
-    public class RuleExecutionException : Exception
-    {
-        private readonly string _ruleName;
-
-        public RuleExecutionException(string ruleName, string context)
-            : base ($"Rule {ruleName} is failed to execute on {context}")
-        {
-            _ruleName = ruleName;
         }
     }
 }

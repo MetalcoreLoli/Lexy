@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lexy", "Lexy\Lexy.csproj", "{2CF60746-EF6A-4100-A096-1D4B85770A43}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{07CE34EA-A368-4FE3-A91D-D93C3DA93446}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{DEEBB8FD-33CD-4BA9-BF2B-3180C9143C92}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lexy.Tests", "Lexy.Tests\Lexy.Tests.csproj", "{2713F50B-A583-409A-B524-E38CE6C8513C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2CF60746-EF6A-4100-A096-1D4B85770A43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CF60746-EF6A-4100-A096-1D4B85770A43}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CF60746-EF6A-4100-A096-1D4B85770A43}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CF60746-EF6A-4100-A096-1D4B85770A43}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2713F50B-A583-409A-B524-E38CE6C8513C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2713F50B-A583-409A-B524-E38CE6C8513C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2713F50B-A583-409A-B524-E38CE6C8513C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2713F50B-A583-409A-B524-E38CE6C8513C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2CF60746-EF6A-4100-A096-1D4B85770A43} = {DEEBB8FD-33CD-4BA9-BF2B-3180C9143C92}
+		{2713F50B-A583-409A-B524-E38CE6C8513C} = {07CE34EA-A368-4FE3-A91D-D93C3DA93446}
+	EndGlobalSection
+EndGlobal

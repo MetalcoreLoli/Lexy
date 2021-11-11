@@ -8,6 +8,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{DEEBB8
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lexy.Tests", "Lexy.Tests\Lexy.Tests.csproj", "{2713F50B-A583-409A-B524-E38CE6C8513C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{6161B233-877A-4388-A558-C4363A172F9C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lexy.Example", "Lexy.Example\Lexy.Example.csproj", "{6E4B1084-0E51-4282-8470-7068D6A87620}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -22,9 +26,14 @@ Global
 		{2713F50B-A583-409A-B524-E38CE6C8513C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2713F50B-A583-409A-B524-E38CE6C8513C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2713F50B-A583-409A-B524-E38CE6C8513C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6E4B1084-0E51-4282-8470-7068D6A87620}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E4B1084-0E51-4282-8470-7068D6A87620}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E4B1084-0E51-4282-8470-7068D6A87620}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E4B1084-0E51-4282-8470-7068D6A87620}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{2CF60746-EF6A-4100-A096-1D4B85770A43} = {DEEBB8FD-33CD-4BA9-BF2B-3180C9143C92}
 		{2713F50B-A583-409A-B524-E38CE6C8513C} = {07CE34EA-A368-4FE3-A91D-D93C3DA93446}
+		{6E4B1084-0E51-4282-8470-7068D6A87620} = {6161B233-877A-4388-A558-C4363A172F9C}
 	EndGlobalSection
 EndGlobal

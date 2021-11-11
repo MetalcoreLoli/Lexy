@@ -6,11 +6,19 @@ using System.Text;
 
 namespace Lexy
 {
+    internal static class LinqHelper
+    {
+        public static string CharsToString(this IEnumerable<char> chars) => chars.Aggregate("", (s, c) => s + c);
+    }
+
     public abstract record Rule
     {
+
         #region PUBLIC
         public abstract ExecutionResult ExecuteOn(string context);
-        #endregion
+
+        public static TRule Run<TRule>() where TRule : Rule => 
+            Activator.CreateInstance<TRule>();
 
         #region OPERATORS
 
@@ -18,7 +26,8 @@ namespace Lexy
         public static Rule operator &(Rule left, Rule right) => new AndCombinatorRule(left, right);
 
         #endregion
-
+        
+        
         public record ExecutionResult : IEnumerable<ExecutionResult>
         {
             protected readonly List<ExecutionResult> _results;
@@ -31,11 +40,12 @@ namespace Lexy
                 Tail = tail;
             }
 
-            internal string Tail { get; }
+            internal string Tail { get; private set; }
 
             public ExecutionResult Append(ExecutionResult result)
             {
                 _results.Add(result);
+                Tail = result.Tail;
                 return this;
             }
 
@@ -59,5 +69,39 @@ namespace Lexy
 
             IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
         }
+        #endregion
+        #region PROTECTED
+
+        protected string Context = String.Empty;
+        private int _current;
+
+        protected char Peek() => !IsEnd? Context[0] : '\0';
+        protected char PeekNext() => !IsEnd ? Context[1] : Peek();
+
+        protected Rule Shift(int steps = 1)
+        {
+            Context = Context.Skip(1).CharsToString();
+            return this;
+        }
+
+
+        protected string MoveThoughtContextWhile(string context, Func<char, bool> predicate)
+        {
+            Context = context;
+            if (IsEnd) return String.Empty;
+            string tail = String.Empty;
+            char current = Peek();
+            while (Context != String.Empty && predicate(current))
+            {
+                tail += current;
+                Shift();
+                current = Peek();
+            }
+            return tail;
+        }
+
+        protected bool IsEnd => Context == string.Empty;
+
+        #endregion
     }
 }

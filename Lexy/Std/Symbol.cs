@@ -7,6 +7,7 @@ namespace Lexy.Std
         {
             Word,
             Num,
+            Character,
             Whitespace,
         }
     }

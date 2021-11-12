@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Lexy.Std;
 
 namespace Lexy
 {
@@ -13,13 +14,41 @@ namespace Lexy
 
     public abstract record Rule
     {
-
         #region PUBLIC
+
+        public Rule()
+        {
+        }
+
+
         public abstract ExecutionResult ExecuteOn(string context);
+
+        public virtual (ExecutionResult head, string error) SaveExecuteOn(string context)
+        {
+            try
+            {
+                return (ExecuteOn(context), "");
+            }
+            catch (Exception e)
+            {
+                return (null, e.Message);
+            }
+        }
 
         public static TRule Run<TRule>() where TRule : Rule => 
             Activator.CreateInstance<TRule>();
 
+        public static TRule Run<TRule, T>(IRuleContext<T> context) where TRule : Rule => 
+            (TRule) Activator.CreateInstance(typeof(TRule), context);
+
+        public static Rule Whitespace => new Whitespace();
+        public static Rule Number => new Number();
+        public static Rule Character(IRuleContext<char> ruleContext)=> new Character(ruleContext);
+        public static Rule Character(char value)=> new Character(NewContextOf(value));
+        public static Rule Word(IRuleContext<string> ruleContext) => new Word(ruleContext);
+        public static Rule Word(string value) => new Word(NewContextOf(value));
+        
+        public static IRuleContext<T> NewContextOf<T>(T head) => new RuleContextImpl<T>(head);
         #region OPERATORS
 
         public static Rule operator |(Rule left, Rule right) => new OrCombinatorRule(left, right);
@@ -37,6 +66,7 @@ namespace Lexy
             {
                 _value = context ?? throw new NullReferenceException();
                 _results = new List<ExecutionResult>();
+                _results.Add(this);
                 Tail = tail;
             }
 
@@ -44,25 +74,24 @@ namespace Lexy
 
             public ExecutionResult Append(ExecutionResult result)
             {
-                _results.Add(result);
+                _results.AddRange(result);
                 Tail = result.Tail;
+                result._results.Clear();
                 return this;
             }
 
             public T As<T>() => (T) _value;
 
             public IEnumerable<T> AllAsOrDefault<T>() => 
-                _results.Count > 0 ? _results.Select(r => r.As<T>()).Append(As<T>()) : default;
+                _results.Count > 0 ? _results.Select(r => r.As<T>()) : default;
 
             public IEnumerator<ExecutionResult> GetEnumerator() => _results.GetEnumerator();
 
             public override string ToString()
             {
                 var sb = new StringBuilder();
-                sb.Append($"`{_value}` ");
                 foreach (var result in _results)
                     sb.Append($"`{result._value}` ");
-               
                 return sb.ToString()[..^1];
             }
         

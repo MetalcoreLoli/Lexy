@@ -4,8 +4,9 @@ namespace Lexy.Example
 {
     internal record BinaryRule(char Sym) : Rule
     {
+        public Rule Binary => Run<Add>() | Run<Sub>() | Run<Mul>() | Run<Div>();
         public override ExecutionResult ExecuteOn(string context) => 
-            ((Number | Whitespace) & Character(Sym) & (Whitespace | Number)).ExecuteOn(context);
+            ((MaybeSomething | Number | Whitespace) & Character(Sym) & (Whitespace | Number)).ExecuteOn(context);
     }
 
     internal record Add : BinaryRule
@@ -38,9 +39,11 @@ namespace Lexy.Example
     {
         static void Main(string[] args)
         {
-            var context = "123+ 45-5*8/2";
-            var rule = Rule.Run<Add>() | Rule.Run<Sub>() | Rule.Run<Div>() | Rule.Run<Mul>();
-            Console.WriteLine(rule.ExecuteOn(context));
+            var context = "123+ 45-5*8";
+            var (res, errors) = Rule.TestRulesOn(context, Rule.Run<Add>(), Rule.Run<Sub>(), Rule.Run<Mul>(), Rule.Run<Div>());
+            Console.WriteLine($"Result:\n{res}\nErrors:");
+            foreach (var error in errors)
+                Console.WriteLine("  "+error); 
         }
     }
 }

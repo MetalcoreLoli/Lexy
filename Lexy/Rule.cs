@@ -43,12 +43,35 @@ namespace Lexy
 
         public static Rule Whitespace => new Whitespace();
         public static Rule Number => new Number();
+        public static Rule MaybeSomething => new MaybeSomething();
         public static Rule Character(IRuleContext<char> ruleContext)=> new Character(ruleContext);
         public static Rule Character(char value)=> new Character(NewContextOf(value));
         public static Rule Word(IRuleContext<string> ruleContext) => new Word(ruleContext);
         public static Rule Word(string value) => new Word(NewContextOf(value));
         
         public static IRuleContext<T> NewContextOf<T>(T head) => new RuleContextImpl<T>(head);
+
+        public static (ExecutionResult Result, IEnumerable<string> Errors) TestRulesOn(string context,
+            params Rule[] rules)
+        {
+            string cxt = context;
+            ExecutionResult result = new ExecutionResult("", context);
+            var errors = new List<string>();
+            foreach (var rule in rules)
+            {
+                var res = rule.SaveExecuteOn(result.Tail);
+                if (res.error == String.Empty)
+                {
+                    result.Append(res.head);
+                }
+                else
+                {
+                    errors.Add(res.error);
+                }
+            }
+            return (result, errors);
+        }
+
         #region OPERATORS
 
         public static Rule operator |(Rule left, Rule right) => new OrCombinatorRule(left, right);
@@ -74,6 +97,7 @@ namespace Lexy
 
             public ExecutionResult Append(ExecutionResult result)
             {
+                //if (result is MaybeSomethingResult) return this;
                 _results.AddRange(result);
                 Tail = result.Tail;
                 result._results.Clear();
@@ -91,7 +115,7 @@ namespace Lexy
             {
                 var sb = new StringBuilder();
                 foreach (var result in _results)
-                    sb.Append($"`{result._value}` ");
+                    sb.Append($"{result._value} ");
                 return sb.ToString()[..^1];
             }
         
@@ -132,5 +156,26 @@ namespace Lexy
         protected bool IsEnd => Context == string.Empty;
 
         #endregion
+    }
+
+    public record MaybeSomething : Rule
+    {
+        public override ExecutionResult ExecuteOn(string context)
+        {
+            Context = context;
+            return new MaybeSomethingResult(context);
+        }
+
+    }
+
+    public record MaybeSomethingResult : Rule.ExecutionResult
+    {
+        public MaybeSomethingResult(string context) : base("", context)
+        {
+        }
+        public override string ToString()
+        {
+            return base.ToString();
+        }
     }
 }

@@ -15,8 +15,8 @@ namespace Lexy
 
         public override ExecutionResult ExecuteOn(string context)
         {
-            var resultOfLeft = _left.ExecuteOn(context) ?? throw new RuleExecutionException($"{_left.GetType().Name}", context);
-            var resultOfRight = _right.ExecuteOn(resultOfLeft.Tail) ?? throw new RuleExecutionException($"{_right.GetType().Name}", resultOfLeft.Tail);
+            var resultOfLeft = _left.ExecuteOn(context) ?? throw new RuleExecutionException($"{_left}", context);
+            var resultOfRight = _right.ExecuteOn(resultOfLeft.Tail) ?? throw new RuleExecutionException($"{_right}", resultOfLeft.Tail);
 
             return resultOfLeft.Append(resultOfRight);
         }

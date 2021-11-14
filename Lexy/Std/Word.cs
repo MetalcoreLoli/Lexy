@@ -18,5 +18,6 @@ namespace Lexy.Std
                 ? new ExecutionResult(new Symbol(Symbol.Forma.Word, word, word), Context) 
                 : null;
         }
+        public override string ToString() => $"{nameof(Word)}(\"{_ruleContext.Head}\")";
     }
 }

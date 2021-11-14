@@ -9,5 +9,7 @@ namespace Lexy.Std
                 ? new ExecutionResult(new Symbol(Symbol.Forma.Num, num, number), Context) 
                 : null;
         }
+        
+        public override string ToString() => $"{nameof(Number)}";
     };
 }

@@ -39,15 +39,28 @@ namespace Lexy.Example
     {
         static void Main(string[] args)
         {
+//            ExampleOne();
+            ExampleTwo();
+        }
+
+        private static void ExampleTwo()
+        {
+            var context = "hello world";
+            var rule = Rule.Word("hello") & Rule.Whitespace & Rule.Word("world");
+            Console.WriteLine(rule.ExecuteOn(context));
+        }
+
+        private static void ExampleOne()
+        {
             var context = "123+ 45-5*8        / 21";
             var (res, errors) =
-                Rule.TestRulesOn(context, 
-                     Rule.Run<Add>(), Rule.Run<Sub>(), 
-                                Rule.Run<Mul>(), Rule.Run<Div>(),
-                                Rule.Word("hello"));
+                Rule.TestRulesOn(context,
+                    Rule.Run<Add>(), Rule.Run<Sub>(),
+                    Rule.Run<Mul>(), Rule.Run<Div>(),
+                    Rule.Word("hello"));
             Console.WriteLine($"Result:\n{res}\nErrors:");
             foreach (var error in errors)
-                Console.WriteLine("  "+error); 
+                Console.WriteLine("  " + error);
         }
     }
 }

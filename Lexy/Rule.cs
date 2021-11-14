@@ -59,15 +59,11 @@ namespace Lexy
             var errors = new List<string>();
             foreach (var rule in rules)
             {
-                var res = rule.SaveExecuteOn(result.Tail);
-                if (res.error == String.Empty)
-                {
-                    result.Append(res.head);
-                }
+                var (head, error) = rule.SaveExecuteOn(result.Tail);
+                if (error == String.Empty)
+                    result.Append(head);
                 else
-                {
-                    errors.Add(res.error);
-                }
+                    errors.Add(error);
             }
             return (result, errors);
         }

@@ -2,7 +2,7 @@ using System.Linq;
 
 namespace Lexy.Std
 {
-    public record Character: Rule
+    public record Character: Rule, IRuleVisitable
     {
         private readonly IRuleContext<char> _ruleContext;
 
@@ -20,5 +20,7 @@ namespace Lexy.Std
         }
 
         public override string ToString() => $"{nameof(Character)}('{_ruleContext.Head}')";
+        public T Visit<T>(IRuleVisitor<T> visitor) => 
+            visitor.VisitCharacter(this, _ruleContext);
     }
 }

@@ -1,6 +1,6 @@
 namespace Lexy.Std
 {
-    public record Number : Rule
+    public record Number : Rule, IRuleVisitable
     {
         public override ExecutionResult ExecuteOn(string context)
         {
@@ -11,5 +11,7 @@ namespace Lexy.Std
         }
         
         public override string ToString() => $"{nameof(Number)}";
+        public T Visit<T>(IRuleVisitor<T> visitor) => 
+            visitor.VisitNumber(this);
     };
 }

@@ -2,7 +2,7 @@ using System.Linq;
 
 namespace Lexy.Std
 {
-    public record Whitespace : Rule
+    public record Whitespace : Rule, IRuleVisitable
     {
         public override ExecutionResult ExecuteOn(string context)
         {
@@ -13,5 +13,7 @@ namespace Lexy.Std
         }
 
         public override string ToString() => $"{nameof(Whitespace)}";
+        public T Visit<T>(IRuleVisitor<T> visitor) => 
+            visitor.VisitWhitespace(this);
     }
 }

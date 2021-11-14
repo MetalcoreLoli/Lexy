@@ -2,7 +2,7 @@ using System;
 
 namespace Lexy.Std
 {
-    public record Word : Rule
+    public record Word : Rule, IRuleVisitable
     {
         private readonly IRuleContext<string> _ruleContext;
 
@@ -19,5 +19,7 @@ namespace Lexy.Std
                 : null;
         }
         public override string ToString() => $"{nameof(Word)}(\"{_ruleContext.Head}\")";
+        public T Visit<T>(IRuleVisitor<T> visitor) => 
+            visitor.VisitWord(this, _ruleContext);
     }
 }

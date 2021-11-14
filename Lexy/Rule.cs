@@ -59,7 +59,7 @@ namespace Lexy
             var errors = new List<string>();
             foreach (var rule in rules)
             {
-                var (head, error) = rule.SaveExecuteOn(result.Tail);
+                var (head, error) = (rule & MaybeSomething).SaveExecuteOn(result.Tail);
                 if (error == String.Empty)
                     result.Append(head);
                 else
@@ -94,6 +94,7 @@ namespace Lexy
             public ExecutionResult Append(ExecutionResult result)
             {
                 //if (result is MaybeSomethingResult) return this;
+                if (result is null) return this;
                 _results.AddRange(result);
                 Tail = result.Tail;
                 result._results.Clear();
@@ -111,7 +112,11 @@ namespace Lexy
             {
                 var sb = new StringBuilder();
                 foreach (var result in _results)
+                {
+                    if (result is MaybeSomethingResult maybeSomethingResult) 
+                       continue;
                     sb.Append($"{result._value} ");
+                }
                 return sb.ToString()[..^1];
             }
         

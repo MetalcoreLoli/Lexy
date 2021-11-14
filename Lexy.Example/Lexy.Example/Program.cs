@@ -1,12 +1,12 @@
 ﻿using System;
+using Lexy.Std;
 
 namespace Lexy.Example
 {
     internal record BinaryRule(char Sym) : Rule
     {
-        public Rule Binary => Run<Add>() | Run<Sub>() | Run<Mul>() | Run<Div>();
         public override ExecutionResult ExecuteOn(string context) => 
-            ((MaybeSomething | Number | Whitespace) & Character(Sym) & (Whitespace | Number)).ExecuteOn(context);
+            ((MaybeSomething | Number | Whitespace) & Character(Sym) & (Whitespace | Number | MaybeSomething)).ExecuteOn(context);
     }
 
     internal record Add : BinaryRule
@@ -39,8 +39,12 @@ namespace Lexy.Example
     {
         static void Main(string[] args)
         {
-            var context = "123+ 45-5*8";
-            var (res, errors) = Rule.TestRulesOn(context, Rule.Run<Add>(), Rule.Run<Sub>(), Rule.Run<Mul>(), Rule.Run<Div>());
+            var context = "123+ 45-5*8        / 21";
+            var (res, errors) =
+                Rule.TestRulesOn(context, 
+                     Rule.Run<Add>(), Rule.Run<Sub>(), 
+                                Rule.Run<Mul>(), Rule.Run<Div>(),
+                                Rule.Word("hello"));
             Console.WriteLine($"Result:\n{res}\nErrors:");
             foreach (var error in errors)
                 Console.WriteLine("  "+error); 

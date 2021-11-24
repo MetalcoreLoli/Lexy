@@ -14,10 +14,10 @@ namespace Lexy.Tests
             var ruleOne = new Mock<Rule>();
             var ruleTwo = new Mock<Rule>();
 
-            ruleOne  .Setup(x => x.ExecuteOn("")).Returns(new Rule.ExecutionResult("Number"));
-            ruleTwo  .Setup(x => x.ExecuteOn("")).Returns(new Rule.ExecutionResult("Whitespace"));
+            ruleOne  .Setup(x => x.ExecuteOn("Number")).Returns(new Rule.ExecutionResult("Number"));
+            ruleTwo  .Setup(x => x.ExecuteOn("Whitespace")).Returns(new Rule.ExecutionResult("Whitespace"));
 
-            var result = (ruleOne.Object & ruleTwo.Object & ruleOne.Object).ExecuteOn("");
+            var result = (ruleOne.Object & ruleTwo.Object & ruleOne.Object).ExecuteOn("Number Whitespace Number");
 
             result.ToString().Should().BeEquivalentTo("`Number` `Whitespace` `Number`");
         }

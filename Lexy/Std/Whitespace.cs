@@ -8,7 +8,7 @@ namespace Lexy.Std
         {
             string spaces = MoveThoughtContextWhile(context, char.IsWhiteSpace);
             return spaces.Any() 
-                ? new ExecutionResult(new Symbol(Symbol.Forma.Whitespace, spaces, ' '), Context)
+                ? new ExecutionResult(new Symbol(Symbol.Forma.Whitespace, spaces, spaces), Context)
                 : null;
         }
 
